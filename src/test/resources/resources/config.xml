@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<c:config xmlns:ucore="http://ucore.gov/ucore/2.0" xmlns:c="util:config"
+    xmlns:ddms="http://metadata.dod.mil/mdr/ns/DDMS/2.0/" xmlns:p="util:properties"
+    xmlns:gml="http://www.opengis.net/gml/3.2">
+    <p:props>
+        <p:prop name="baseURL" value="https://localhost"/>
+    </p:props>
+    <ucore:Organization id="org1">
+        <ucore:What ucore:codespace="http://ucore.gov/ucore/2.0/codespace/"
+            ucore:code="Organization"/>
+        <ucore:ContactInfo>
+            <ucore:Email>poc@organization.com</ucore:Email>
+            <ucore:Phone>555-555-5555</ucore:Phone>
+        </ucore:ContactInfo>
+        <ucore:Name>
+            <ucore:Value>SAIC Headquarters</ucore:Value>
+        </ucore:Name>
+    </ucore:Organization>
+    <ucore:Location id="loc1">
+        <ucore:GeoLocation>
+            <ucore:Point>
+                <gml:Point>
+                    <gml:pos srsName="EPSG:4326">38.922429 -77.233468</gml:pos>
+                </gml:Point>
+            </ucore:Point>
+        </ucore:GeoLocation>
+        <ucore:PhysicalAddress>
+            <ddms:postalAddress>
+                <ddms:street>1710 SAIC Drive</ddms:street>
+                <ddms:city>Mclean</ddms:city>
+                <ddms:state>VA</ddms:state>
+                <ddms:postalCode>22102</ddms:postalCode>
+                <ddms:countryCode ddms:value="USA"/>
+            </ddms:postalAddress>
+        </ucore:PhysicalAddress>
+    </ucore:Location>
+</c:config>

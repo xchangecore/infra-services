@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<str:WorkProduct xmlns:str="http://www.saic.com/precis/2009/06/structures">
+  <ulex:PackageMetadata xmlns:ulex="ulex:message:structure:1.0">
+    <ulex:DataItemID xmlns:ulex="ulex:message:structure:1.0">Incident-a3e441b5-8b82-4789-bfdd-9ccf984cef73</ulex:DataItemID>
+    <ulex:DataItemReferenceID xmlns:ulex="ulex:message:structure:1.0">Incident-a3e441b5-8b82-4789-bfdd-9ccf984cef73</ulex:DataItemReferenceID>
+    <ns:DataItemStatus xmlns:ns="http://ucore.gov/ucore/2.0" ns:code="Active" ns:codespace="http://uicds.org/1.0/codespace/workproduct/status" ns:label="UICDS Work Product Status"/>
+    <ulex:DataOwnerMetadata xmlns:ulex="ulex:message:structure:1.0">
+      <ns:DataOwnerIdentifier xmlns:ns="http://ucore.gov/ucore/2.0">
+        <ns1:Organization xmlns:ns1="http://metadata.dod.mil/mdr/ns/DDMS/2.0/">
+          <ns1:name xmlns:ns1="http://metadata.dod.mil/mdr/ns/DDMS/2.0/">ucids.org</ns1:name>
+        </ns1:Organization>
+      </ns:DataOwnerIdentifier>
+      <ns:DataOwnerContact xmlns:ns="http://ucore.gov/ucore/2.0">
+        <ns1:Organization xmlns:ns1="http://metadata.dod.mil/mdr/ns/DDMS/2.0/">
+          <ns1:name xmlns:ns1="http://metadata.dod.mil/mdr/ns/DDMS/2.0/">http://uicds.us</ns1:name>
+        </ns1:Organization>
+      </ns:DataOwnerContact>
+      <ulex:DataOwnerMetadataDomainAttribute xmlns:ulex="ulex:message:structure:1.0">
+        <ulex:DomainName xmlns:ulex="ulex:message:structure:1.0">UICDS EM Domain</ulex:DomainName>
+      </ulex:DataOwnerMetadataDomainAttribute>
+    </ulex:DataOwnerMetadata>
+    <ns:DisseminationCriteria xmlns:ns="http://ucore.gov/ucore/2.0"/>
+    <str:WorkProductIdentification xmlns:str="http://www.saic.com/precis/2009/06/structures">
+      <base:Identifier xmlns:base="http://www.saic.com/precis/2009/06/base">Incident-a3e441b5-8b82-4789-bfdd-9ccf984cef73</base:Identifier>
+      <base:Version xmlns:base="http://www.saic.com/precis/2009/06/base">1</base:Version>
+      <base:Type xmlns:base="http://www.saic.com/precis/2009/06/base">Incident</base:Type>
+      <base:Checksum xmlns:base="http://www.saic.com/precis/2009/06/base">Tue Jan 25 20:01:08 EST 2011:1:2:1285714307</base:Checksum>
+      <base:State xmlns:base="http://www.saic.com/precis/2009/06/base">Active</base:State>
+    </str:WorkProductIdentification>
+    <str:WorkProductProperties xmlns:str="http://www.saic.com/precis/2009/06/structures">
+      <base:Created xmlns:base="http://www.saic.com/precis/2009/06/base">2011-01-25T20:01:08.062-05:00</base:Created>
+      <base:CreatedBy xmlns:base="http://www.saic.com/precis/2009/06/base">user1@clash.saic.com</base:CreatedBy>
+      <base:LastUpdated xmlns:base="http://www.saic.com/precis/2009/06/base">2011-01-25T20:01:08.062-05:00</base:LastUpdated>
+      <base:LastUpdatedBy xmlns:base="http://www.saic.com/precis/2009/06/base">user1@clash.saic.com</base:LastUpdatedBy>
+      <base:Kilobytes xmlns:base="http://www.saic.com/precis/2009/06/base">2</base:Kilobytes>
+      <base:MimeType xmlns:base="http://www.saic.com/precis/2009/06/base">application/uicds+xml</base:MimeType>
+      <base:AssociatedGroups xmlns:base="http://www.saic.com/precis/2009/06/base">
+        <base:Identifier xmlns:base="http://www.saic.com/precis/2009/06/base">IG-fc2f9dd6-972d-4c75-af60-f9696dd138ff</base:Identifier>
+      </base:AssociatedGroups>
+    </str:WorkProductProperties>
+  </ulex:PackageMetadata>
+  <ns:Digest xmlns:ns="http://ucore.gov/ucore/2.0">
+    <ns:Event xmlns:ns="http://ucore.gov/ucore/2.0" id="Event-f49364ab-434f-4650-ab86-a04b456863bf">
+      <ns:Descriptor xmlns:ns="http://ucore.gov/ucore/2.0">Neighbors report large quantity of mysterious drums and vehicles accumulating in yard and garage</ns:Descriptor>
+      <ns:Identifier xmlns:ns="http://ucore.gov/ucore/2.0" ns:code="ActivityName" ns:codespace="http://niem.gov/niem/niem-core/2.0" ns:label="ID">Investigate report of suspicious activity (Demo)</ns:Identifier>
+      <ns:What xmlns:ns="http://ucore.gov/ucore/2.0" ns:code="Domestic Disturbance" ns:codespace="http://ucore.gov/ucore/2.0/codespace/"/>
+    </ns:Event>
+    <ns:Location xmlns:ns="http://ucore.gov/ucore/2.0" id="Location-ab79de12-c2fd-41cd-83be-45f417569b87">
+      <ns:GeoLocation xmlns:ns="http://ucore.gov/ucore/2.0">
+        <ns:CircleByCenterPoint xmlns:ns="http://ucore.gov/ucore/2.0">
+          <ns1:CircleByCenterPoint xmlns:ns1="http://www.opengis.net/gml/3.2" numArc="1">
+            <ns1:pos xmlns:ns1="http://www.opengis.net/gml/3.2" srsName="EPSG:4326">38.95023 -76.98783</ns1:pos>
+            <ns1:radius xmlns:ns1="http://www.opengis.net/gml/3.2" uom="SMI">4.5</ns1:radius>
+          </ns1:CircleByCenterPoint>
+        </ns:CircleByCenterPoint>
+      </ns:GeoLocation>
+    </ns:Location>
+    <ns:OccursAt xmlns:ns="http://ucore.gov/ucore/2.0" id="OccursAt-05294070-9e1d-4d51-897e-b041025640a0">
+      <ns:Time xmlns:ns="http://ucore.gov/ucore/2.0">
+        <ns:TimeInstant xmlns:ns="http://ucore.gov/ucore/2.0">
+          <Value xmlns="http://ucore.gov/ucore/2.0">2009-11-20T12:05:00-05:00</Value>
+        </ns:TimeInstant>
+      </ns:Time>
+      <ns:EventRef xmlns:ns="http://ucore.gov/ucore/2.0" ref="Event-f49364ab-434f-4650-ab86-a04b456863bf"/>
+      <ns:LocationRef xmlns:ns="http://ucore.gov/ucore/2.0" ref="Location-ab79de12-c2fd-41cd-83be-45f417569b87"/>
+    </ns:OccursAt>
+  </ns:Digest>
+              <ulex:StructuredPayload xmlns:ulex="ulex:message:structure:1.0">
+               <ulex:StructuredPayloadMetadata xmlns:ulex="ulex:message:structure:1.0">
+                  <ulex:CommunityURI xmlns:ulex="ulex:message:structure:1.0">Incident</ulex:CommunityURI>
+                  <ulex:CommunityVersion xmlns:ulex="ulex:message:structure:1.0"/>
+               </ulex:StructuredPayloadMetadata>
+               <Incident xmlns="http://uicds.org/incident" xmlns:ns="http://niem.gov/niem/structures/2.0"
+                         xmlns:base="http://www.saic.com/precis/2009/06/base"
+                         xmlns:ns1="http://niem.gov/niem/niem-core/2.0"
+                         xmlns:ns2="http://www.opengis.net/gml/3.2"
+                         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                         ns:id="Incident-6d0ef40c-afe3-4522-b35d-e2133da1a805">
+                  <ns1:ActivityIdentification xmlns:ns1="http://niem.gov/niem/niem-core/2.0">
+                     <ns1:IdentificationID xmlns:ns1="http://niem.gov/niem/niem-core/2.0">IG-2764634d-8c03-4248-b813-1d9ce85945eb</ns1:IdentificationID>
+                  </ns1:ActivityIdentification>
+                  <ns1:ActivityCategoryText xmlns:ns1="http://niem.gov/niem/niem-core/2.0">CBRNE</ns1:ActivityCategoryText>
+                  <ns1:ActivityDate xmlns:ns1="http://niem.gov/niem/niem-core/2.0">2010-03-19T19:09:44+00:00</ns1:ActivityDate>
+                  <ns1:ActivityDescriptionText xmlns:ns1="http://niem.gov/niem/niem-core/2.0">There has been a release of chemical agent VX affecting area of D-6.  V-series of Nerve Agents</ns1:ActivityDescriptionText>
+                  <ns1:ActivityName xmlns:ns1="http://niem.gov/niem/niem-core/2.0">CBRNERelease ofVX.</ns1:ActivityName>
+                  <ns1:IncidentLocation xmlns:ns1="http://niem.gov/niem/niem-core/2.0">
+                     <ns1:LocationAddress xmlns:ns1="http://niem.gov/niem/niem-core/2.0">
+                        <ns1:AddressFullText xmlns:ns1="http://niem.gov/niem/niem-core/2.0"
+                                             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                             xsi:nil="true"/>
+                     </ns1:LocationAddress>
+                    </ns1:IncidentLocation>
+                  <ns1:IncidentJurisdictionalOrganization xmlns:ns1="http://niem.gov/niem/niem-core/2.0">
+                     <ns1:OrganizationName xmlns:ns1="http://niem.gov/niem/niem-core/2.0">Organization Name</ns1:OrganizationName>
+                  </ns1:IncidentJurisdictionalOrganization>
+                  <OwningCore>uicds@clash.saic.com</OwningCore>
+               </Incident>
+            </ulex:StructuredPayload>
+</str:WorkProduct>

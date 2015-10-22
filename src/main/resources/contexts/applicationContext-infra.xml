@@ -1,0 +1,615 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:integration="http://www.springframework.org/schema/integration" xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/integration
+        http://www.springframework.org/schema/integration/spring-integration-2.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+    <import resource="CoreProperties.xml" />
+    <import resource="applicationContext-dataSrc.xml" />
+
+    <!-- -->
+    <context:annotation-config />
+
+    <!-- MESSAGE CHANNELS -->
+    <integration:publish-subscribe-channel id="productChangeNotificationChannel" />
+    <integration:service-activator input-channel="productChangeNotificationChannel"
+        ref="pubSubService" method="productChangeNotificationHandler" />
+
+    <!-- Resource message Notification channel <integration:publish-subscribe-channel
+        id="resourceNotificationChannel" /> -->
+
+    <!-- Interest Group State Notification channel - from Incident Management
+        Service to all interest group observers -->
+    <integration:publish-subscribe-channel id="interestGroupStateNotificationChannel" />
+    <integration:service-activator input-channel="interestGroupStateNotificationChannel"
+        ref="communicationsService" method="handleInterestGroupState" />
+
+
+    <!-- Incident sharing channels - from CommunicationsService to CommunicationsServiceXmpp -->
+    <!-- the service activators are defined in the optional xmppBeans.xml -->
+    <integration:publish-subscribe-channel id="shareInterestGroupChannel" />
+
+    <!-- WP association channel - from WorkProudctService to CommunicationsService
+        when a work product is associated with an incident -->
+    <integration:publish-subscribe-channel id="productAssociationChannel" />
+    <integration:service-activator input-channel="productAssociationChannel"
+        ref="communicationsService" method="productAssociationHandler" />
+
+    <!-- New Joined Incident channel - from CommunicationsService to IncidentManagementService
+        when a shared incident is received by a joined core -->
+    <integration:publish-subscribe-channel id="newJoinedInterestGroupChannel" />
+
+    <integration:publish-subscribe-channel id="deleteJoinedInterestGroupChannel" />
+    <integration:publish-subscribe-channel id="unSubscribeChannel" />
+
+
+    <!-- Joined core's update/publication request channel - from WorkProduct
+        Service to CommunicationsServiceXmpp (in the joined core) -->
+    <integration:publish-subscribe-channel id="joinedPublishProductRequestChannel" />
+
+    <!-- Joined core's update/publication notification channel - from CommunicationsServiceXmpp
+        to WorkProduct Service (in the incident owning core) -->
+    <integration:publish-subscribe-channel id="joinedPublishProductNotificationChannel" />
+    <integration:service-activator input-channel="joinedPublishProductNotificationChannel"
+        ref="communicationsService" method="joinedPublishProductNotificationHandler" />
+
+    <!-- Joined core's joined interest group notification channel - from CommunicationsServiceXmpp
+        to WorkProduct Service (in the incident owning core) -->
+    <integration:publish-subscribe-channel id="joinedInterestGroupNotificationChannel" />
+    <integration:service-activator input-channel="joinedInterestGroupNotificationChannel"
+        ref="communicationsService" method="joinedInterestGroupNotificationHandler" />
+
+    <integration:publish-subscribe-channel id="deleteJoinedInterestGroupNotificationChannel" />
+    <integration:service-activator input-channel="deleteJoinedInterestGroupNotificationChannel"
+        ref="communicationsService" method="deleteJoinedInterestGroupNotificationHandler" />
+
+    <integration:publish-subscribe-channel id="deleteJoinedProductNotificationChannel" />
+    <integration:service-activator input-channel="deleteJoinedProductNotificationChannel"
+        ref="communicationsService" method="deleteJoinedProductNotificationHandler" />
+
+    <!-- WP notification channel - from CommunicationsService to CommunicationsXmpp
+        when of a new incident -->
+    <integration:publish-subscribe-channel id="newInterestGroupCreatedChannel" />
+    <integration:publish-subscribe-channel id="deleteInterestGroupChannel" />
+    <integration:publish-subscribe-channel id="deleteInterestGroupSharedFromRemoteCoreChannel" />
+    <integration:service-activator input-channel="deleteInterestGroupSharedFromRemoteCoreChannel"
+        ref="interestGroupManagementComponent" method="deleteInterestGroupSharedFromRemoteCoreHandler" />
+    <integration:service-activator input-channel="deleteInterestGroupSharedFromRemoteCoreChannel"
+        ref="agreementService" method="deleteInterestGroupSharedFromRemoteCoreHandler" />
+
+    <!-- WP notification channel - from CommunicationsService to CommunicationsXmpp
+        when a work product is published (when it is created or updated) -->
+    <integration:publish-subscribe-channel id="productPublicationChannel" />
+
+    <integration:publish-subscribe-channel id="productPublicationStatusChannel" />
+
+    <integration:publish-subscribe-channel id="productPublicationStatusNotificationChannel" />
+    <integration:service-activator input-channel="productPublicationStatusNotificationChannel"
+        ref="communicationsService" method="productPublicationStatusNotificationHandler" />
+
+    <!-- Product publication channel - from the XMPP's Interest Manager to the
+        Communications Service (in a joined core) -->
+    <integration:publish-subscribe-channel id="owningCoreWorkProductNotificationChannel" />
+    <integration:service-activator input-channel="owningCoreWorkProductNotificationChannel"
+        ref="communicationsService" method="owningCoreWorkProductNotificationHandler" />
+
+    <!-- Core Roster reponse and Core Status Update channels - from CommunicationsServiceXmppImpl
+        to DirectoryService -->
+
+    <integration:publish-subscribe-channel id="coreRosterChannel" />
+    <integration:service-activator input-channel="coreRosterChannel"
+        ref="directoryService" method="coreRosterHandler" />
+
+    <integration:publish-subscribe-channel id="coreStatusUpdateChannel" />
+    <!--
+        task-executor="coreStatusUpdateExecutor" />
+        <task:executor id="coreStatusUpdateExecutor" pool-size="5-15" />
+    -->
+    <integration:service-activator input-channel="coreStatusUpdateChannel"
+        ref="directoryService" method="coreStatusUpdateHandler" />
+    <!-- this is handled by agreementDAO
+        <integration:service-activator input-channel="coreStatusUpdateChannel"
+        ref="agreementService" method="coreStatusUpdateHandler" />
+    -->
+    <integration:service-activator input-channel="coreStatusUpdateChannel"
+        ref="interestGroupManagementComponent" method="coreStatusUpdateHandler" />
+
+    <!-- Core-to-core message channels -->
+    <integration:publish-subscribe-channel id="core2CoreMessageChannel" />
+    <integration:service-activator input-channel="core2CoreMessageNotificationChannel"
+        ref="communicationsService" method="core2CoreMessageNotificationHandler" />
+
+    <integration:publish-subscribe-channel id="resourceMessageNotificationChannel" />
+
+    <integration:publish-subscribe-channel id="broadcastMessageNotificationChannel" />
+
+    <!-- Autoshare to Dissemination Manager -->
+    <!-- Not sure we need the channel def here since it is defined in em -->
+    <integration:service-activator input-channel="disseminationManagerChannel"
+        ref="disseminationManagerComponent" method="disseminationManagerMessageHandler" />
+
+    <!-- System Initialized Channel -->
+    <integration:publish-subscribe-channel id="systemInitializedChannel" />
+    <integration:service-activator input-channel="systemInitializedChannel"
+        ref="interestGroupManagementComponent" method="systemInitializedHandler" />
+    <integration:service-activator input-channel="systemInitializedChannel"
+        ref="disseminationManagerComponent" method="systemInitializedHandler" />
+    <integration:service-activator input-channel="systemInitializedChannel"
+        ref="directoryService" method="systemInitializedHandler" />
+    <integration:service-activator input-channel="systemInitializedChannel"
+        ref="searchService" method="systemInitializedHandler" />
+    <integration:service-activator input-channel="systemInitializedChannel"
+        ref="notificationsService" method="systemInitializedHandler" />
+    <!--
+        <integration:service-activator input-channel="systemInitializedChannel"
+        ref="loggingService" method="systemInitializedHandler" />
+    -->
+    <integration:service-activator input-channel="systemInitializedChannel"
+        ref="agreementService" method="systemInitializedHandler" />
+    <integration:service-activator input-channel="systemInitializedChannel"
+        ref="resourceProfileService" method="systemInitializedHandler" />
+    <integration:service-activator input-channel="systemInitializedChannel"
+        ref="resourceInstanceService" method="systemInitializedHandler" />
+    <integration:service-activator input-channel="systemInitializedChannel"
+        ref="interestGroupService" method="systemInitializedHandler" />
+
+    <!-- Roster data extracted from agreements - from AgreementService to CommsXmpp -->
+    <integration:publish-subscribe-channel id="agreementRosterChannel" />
+    <integration:service-activator input-channel="agreementRosterChannel"
+        ref="pubSubService" method="agreementNotificationHandler" />
+
+    <!-- -->
+    <!-- DAOs -->
+    <!-- -->
+    <bean id="queuedMessageDAO" class="com.leidos.xchangecore.core.infrastructure.dao.hb.QueuedMessageDAOHibernate" />
+    <!-- UserInterestGroup is to persist the user versus InterestGroup relationship -->
+    <bean id="userInterestGroupDAO" class="com.leidos.xchangecore.core.infrastructure.dao.hb.UserInterestGroupDAOHibernate" />
+    <bean id="interestGroupDAO" class="com.leidos.xchangecore.core.infrastructure.dao.hb.InterestGroupDAOHibernate" />
+    <bean id="coreConfigDAO" class="com.leidos.xchangecore.core.infrastructure.dao.hb.CoreConfigHibernateDAO" />
+    <bean id="externalDataSourceConfigDAO"
+        class="com.leidos.xchangecore.core.infrastructure.dao.hb.ExternalDataSourceConfigHibernateDAO" />
+    <bean id="registeredServiceDAO" class="com.leidos.xchangecore.core.infrastructure.dao.hb.RegisteredServiceHibernateDAO" />
+    <bean id="publishedProductDAO" class="com.leidos.xchangecore.core.infrastructure.dao.hb.PublishedProductHibernateDAO" />
+    <bean id="subscribedProductDAO" class="com.leidos.xchangecore.core.infrastructure.dao.hb.SubscribedProductHibernateDAO" />
+    <bean id="productSubscriptionByIDDAO"
+        class="com.leidos.xchangecore.core.infrastructure.dao.hb.ProductSubscriptionByIDHibernateDAO" />
+    <bean id="productSubscriptionByTypeDAO"
+        class="com.leidos.xchangecore.core.infrastructure.dao.hb.ProductSubscriptionByTypeHibernateDAO" />
+    <bean id="loggerDAO" class="com.leidos.xchangecore.core.infrastructure.dao.hb.LoggerDAOHibernate" />
+    <bean id="agreementDAO" class="com.leidos.xchangecore.core.infrastructure.dao.hb.AgreementDAOHibernate" />
+    <bean id="shareRuleDAO" class="com.leidos.xchangecore.core.infrastructure.dao.hb.ShareRuleHibernateDAO" />
+    <bean id="codeSpaceValueTypeDAO" class="com.leidos.xchangecore.core.infrastructure.dao.hb.CodeSpaceValueTypeHibernateDAO" />
+    <bean id="resourceProfileDAO" class="com.leidos.xchangecore.core.infrastructure.dao.hb.ResourceProfileDAOHibernate" />
+    <bean id="resourceInstanceDAO" class="com.leidos.xchangecore.core.infrastructure.dao.hb.ResourceInstanceDAOHibernate" />
+    <bean id="userRoleDAO" class="com.leidos.xchangecore.core.infrastructure.dao.hb.UserRoleDAOHibernate" />
+    <bean id="notificationDAO" class="com.leidos.xchangecore.core.infrastructure.dao.hb.NotificationDAOHibernate" />
+    <bean id="notificationMessageDAO"
+        class="com.leidos.xchangecore.core.infrastructure.dao.hb.NotificationMessageDAOHibernate" />
+
+    <bean id="nodeRenderer" class="com.leidos.xchangecore.core.infrastructure.util.NodeRenderer">
+        <property name="configPath" value="/config/resources/" />
+        <property name="frequency" value="20000" />
+        <property name="delay" value="5000" />
+    </bean>
+
+    <bean id="ldapUtil" class="com.leidos.xchangecore.core.infrastructure.util.LdapUtil">
+        <property name="password">
+            <value>${ldap.password}</value>
+        </property>
+        <property name="ldapDomain">
+            <value>${ldap.domain}</value>
+        </property>
+    </bean>
+
+    <bean id="workProductDAO" class="com.leidos.xchangecore.core.infrastructure.dao.hb.WorkProductDAOHibernate">
+        <property name="userInterestGroupDAO" ref="userInterestGroupDAO" />
+    </bean>
+
+    <bean id="queryController" class="com.leidos.xchangecore.core.infrastructure.controller.QueryController">
+        <property name="service" ref="feedSearchService" />
+        <property name="serviceName" value="exist" />
+        <property name="nodeRenderer" ref="nodeRenderer" />
+    </bean>
+
+    <!--
+        <bean id="workProductSqlBuilder"
+        class="com.leidos.xchangecore.core.infrastructure.util.WorkProductSqlBuilder">
+        <property name="userInterestGroupDAO" ref="userInterestGroupDAO" />
+        </bean>
+    -->
+
+    <bean id="feedSearchService" class="com.leidos.xchangecore.core.infrastructure.service.impl.SQLSearchServiceImpl">
+        <property name="workProductDAO" ref="workProductDAO" />
+    </bean>
+
+    <bean id="searchMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="mappings">
+            <props>
+                <prop key="/**/search/">queryController</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!-- -->
+    <!-- Health Status -->
+    <!-- -->
+    <!-- Log Monitor Components -->
+
+    <!-- No needed anymore
+        <bean id="existLogMonitor" class="com.leidos.xchangecore.core.infrastructure.status.ComponentLogMonitor">
+        <property name="logFiles">
+        <list>
+        <value>%INSTALL_HOME%/Server/eXist/webapp/WEB-INF/logs/exist.log</value>
+        </list>
+        </property>
+        <property name="logName" value="exist" />
+        <property name="logPattern" value="TIMESTAMP [THREAD] LEVEL (FILE [METHOD]:LINE) - MESSAGE" />
+        <property name="doTailing" value="true" />
+        <property name="thresholdLevel" value="INFO" />
+        <property name="pollingDelay" value="20000" />
+        </bean>
+        <bean id="opendsLogMonitor" class="com.leidos.xchangecore.core.infrastructure.status.ComponentLogMonitor">
+        <property name="logFiles">
+        <list>
+        <value>%INSTALL_HOME%/Server/OpenDJ/logs/errors</value>
+        </list>
+        </property>
+        <property name="logName" value="opends" />
+        <property name="logPattern" value="[PROP(RELATIVETIME)] * *=LEVEL MESSAGE" />
+        <property name="doTailing" value="true" />
+        <property name="thresholdLevel" value="ERROR" />
+        <property name="pollingDelay" value="20000" />
+        </bean>
+        <bean id="tomcatLogMonitor" class="com.leidos.xchangecore.core.infrastructure.status.ComponentLogMonitor">
+        <property name="logFiles">
+        <list>
+        <value>%INSTALL_HOME%/Server/Tomcat/logs/catalina.{yyyy-MM-dd}.log</value>
+        </list>
+        </property>
+        <property name="logName" value="tomcat" />
+        <property name="logPattern" value="TIMESTAMP CLASS METHOD LEVEL: MESSAGE" />
+        <property name="doTailing" value="true" />
+        <property name="thresholdLevel" value="INFO" />
+        <property name="pollingDelay" value="20000" />
+        </bean>
+        <bean id="uicdsLogMonitor" class="com.leidos.xchangecore.core.infrastructure.status.ComponentLogMonitor">
+        <property name="logFiles">
+        <list>
+        <value>%INSTALL_HOME%/Logs/uicds.log.{yyyy-MM-dd}</value>
+        </list>
+        </property>
+        <property name="logName" value="uicds" />
+        <property name="logPattern" value="[LEVEL PROP(RELATIVETIME) CLASS] MESSAGE" />
+        <property name="doTailing" value="true" />
+        <property name="thresholdLevel" value="WARN" />
+        <property name="pollingDelay" value="20000" />
+        </bean>
+        <bean id="openfireLogMonitor" class="com.leidos.xchangecore.core.infrastructure.status.ComponentLogMonitor">
+        <property name="logFiles">
+        <list>
+        <value>%INSTALL_HOME%/Server/Openfire/logs/error.log</value>
+        <value>%INSTALL_HOME%/Server/Openfire/logs/debug.log</value>
+        <value>%INSTALL_HOME%/Server/Openfire/logs/warn.log</value>
+        <value>%INSTALL_HOME%/Server/Openfire/logs/info.log</value>
+        </list>
+        </property>
+        <property name="logName" value="openfire" />
+        <property name="logPattern" value="PROP(RELATIVETIME) [CLASS(FILE:LINE)" />
+        <property name="doTailing" value="true" />
+        <property name="thresholdLevel" value="ERROR" />
+        <property name="pollingDelay" value="20000" />
+        </bean>
+    -->
+
+    <!-- Component Status
+        <bean id="existStatus" class="com.leidos.xchangecore.core.infrastructure.status.Status">
+        <property name="name" value="NORMAL" />
+        <property name="category" value="NORMAL" />
+        </bean>
+        <bean id="opendsStatus" class="com.leidos.xchangecore.core.infrastructure.status.Status">
+        <property name="category" value="NORMAL" />
+        <property name="name" value="NORMAL" />
+        </bean>
+        <bean id="openfireStatus" class="com.leidos.xchangecore.core.infrastructure.status.Status">
+        <property name="category" value="NORMAL" />
+        <property name="name" value="NORMAL" />
+        </bean>
+        <bean id="tomcatStatus" class="com.leidos.xchangecore.core.infrastructure.status.Status">
+        <property name="category" value="NORMAL" />
+        <property name="name" value="NORMAL" />
+        </bean>
+        <bean id="uicdsStatus" class="com.leidos.xchangecore.core.infrastructure.status.Status">
+        <property name="category" value="NORMAL" />
+        <property name="name" value="NORMAL" />
+        </bean>
+    -->
+
+    <!-- RuleEngine -->
+    <bean id="ruleEngine" class="com.leidos.xchangecore.core.infrastructure.rule.RuleEngine">
+        <property name="rulesFile" value="${install.dir}/config/rules.xml" />
+    </bean>
+    <!-- -->
+    <!-- Scheduled Tasks (temp cleanup, etc) -->
+    <!-- -->
+    <!-- run every X seconds (period in milliseconds)
+        <bean id="tempCleaner" class="com.leidos.xchangecore.core.infrastructure.util.TempCleaner"> </bean>
+
+        <bean id="cleanerTask" class="org.springframework.scheduling.timer.ScheduledTimerTask">
+        <property name="period" value="300000"/>
+        <property name="timerTask" ref="tempCleaner"/>
+        </bean>
+
+        <bean id="timerFactoryBean" class="org.springframework.scheduling.timer.TimerFactoryBean">
+        <property name="scheduledTimerTasks">
+        <list>
+        <ref bean="cleanerTask"/>
+        </list>
+        </property>
+        </bean>
+    -->
+
+    <!-- XSLT Type -->
+    <bean id="workProductXsltType" class="com.leidos.xchangecore.core.infrastructure.util.WorkProductXsltType">
+        <property name="types">
+            <list>
+                <value>incident</value>
+                <value>map</value>
+                <value>rm</value>
+                <value>ics</value>
+                <value>links</value>
+                <value>alert</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- -->
+    <!-- Services -->
+    <!-- -->
+
+    <bean id="communicationsService"
+        class="com.leidos.xchangecore.core.infrastructure.service.impl.CommunicationsServiceImpl">
+        <property name="shareInterestGroupChannel" ref="shareInterestGroupChannel" />
+        <property name="newInterestGroupCreatedChannel" ref="newInterestGroupCreatedChannel" />
+        <property name="deleteInterestGroupChannel" ref="deleteInterestGroupChannel" />
+        <property name="productPublicationChannel" ref="productPublicationChannel" />
+        <property name="productPublicationStatusChannel" ref="productPublicationStatusChannel" />
+        <property name="core2CoreMessageChannel" ref="core2CoreMessageChannel" />
+        <property name="resourceMessageNotificationChannel" ref="resourceMessageNotificationChannel" />
+        <property name="broadcastMessageNotificationChannel" ref="broadcastMessageNotificationChannel" />
+        <property name="configurationService" ref="configurationService" />
+        <property name="directoryService" ref="directoryService" />
+        <property name="pubSubService" ref="pubSubService" />
+        <property name="workProductService" ref="workProductService" />
+        <property name="interestGroupManagementComponent" ref="interestGroupManagementComponent" />
+        <property name="notificationService" ref="notificationsService" />
+        <property name="agreementService" ref="agreementService" />
+    </bean>
+    <bean id="interestGroupManagementComponent"
+        class="com.leidos.xchangecore.core.infrastructure.service.impl.InterestGroupManagementComponentImpl">
+        <property name="interestGroupStateNotificationChannel" ref="interestGroupStateNotificationChannel" />
+        <property name="newJoinedInterestGroupChannel" ref="newJoinedInterestGroupChannel" />
+        <property name="deleteJoinedInterestGroupChannel" ref="deleteJoinedInterestGroupChannel" />
+        <property name="unSubscribeChannel" ref="unSubscribeChannel" />
+        <property name="directoryService" ref="directoryService" />
+        <property name="agreementService" ref="agreementService" />
+        <property name="agreementDAO" ref="agreementDAO" />
+        <property name="interestGroupDAO" ref="interestGroupDAO" />
+    </bean>
+    <bean id="workProductService" class="com.leidos.xchangecore.core.infrastructure.service.impl.WorkProductServiceImpl">
+        <property name="productChangeNotificationChannel" ref="productChangeNotificationChannel" />
+        <property name="joinedPublishProductRequestChannel" ref="joinedPublishProductRequestChannel" />
+        <property name="configurationService" ref="configurationService" />
+        <property name="productAssociationChannel" ref="productAssociationChannel" />
+        <property name="directoryService" ref="directoryService" />
+        <property name="workProductDAO" ref="workProductDAO" />
+        <property name="interestGroupDAO" ref="interestGroupDAO" />
+        <property name="ldapUtil" ref="ldapUtil" />
+    </bean>
+    <bean id="searchService" class="com.leidos.xchangecore.core.infrastructure.service.impl.SearchServiceImpl">
+        <property name="directoryService" ref="directoryService" />
+    </bean>
+    <bean id="directoryService" class="com.leidos.xchangecore.core.infrastructure.service.impl.DirectoryServiceImpl">
+        <property name="configurationService" ref="configurationService" />
+        <property name="registeredServiceDAO" ref="registeredServiceDAO" />
+        <property name="subscribedProductDAO" ref="subscribedProductDAO" />
+        <property name="publishedProductDAO" ref="publishedProductDAO" />
+        <property name="agreementDAO" ref="agreementDAO" />
+        <property name="externalDataSourceConfigDAO" ref="externalDataSourceConfigDAO" />
+        <property name="workProductService" ref="workProductService" />
+        <property name="pubSubService" ref="pubSubService" />
+        <property name="communicationsService" ref="communicationsService" />
+    </bean>
+    <bean id="pubSubService" class="com.leidos.xchangecore.core.infrastructure.service.impl.PubSubServiceImpl">
+        <property name="workProductService" ref="workProductService" />
+        <property name="productSubscriptionByIDDAO" ref="productSubscriptionByIDDAO" />
+        <property name="productSubscriptionByTypeDAO" ref="productSubscriptionByTypeDAO" />
+    </bean>
+    <bean id="configurationService" class="com.leidos.xchangecore.core.infrastructure.service.impl.ConfigurationServiceImpl">
+        <property name="coreJID">
+            <value>${xmpp.core.username}@${xmpp.fqdn}</value>
+        </property>
+        <property name="directoryService" ref="directoryService" />
+    </bean>
+    <bean id="notificationsService" class="com.leidos.xchangecore.core.infrastructure.service.impl.NotificationServiceImpl">
+        <property name="userInterestGroupDAO" ref="userInterestGroupDAO" />
+        <property name="notificationDAO" ref="notificationDAO" />
+        <property name="agreementDAO" ref="agreementDAO" />
+        <property name="productSubscriptionByTypeDAO" ref="productSubscriptionByTypeDAO" />
+        <property name="configurationService" ref="configurationService" />
+        <property name="pubSubService" ref="pubSubService" />
+        <property name="workProductService" ref="workProductService" />
+        <property name="directoryService" ref="directoryService" />
+        <property name="communicationsService" ref="communicationsService" />
+        <property name="webServiceTemplate" ref="webServiceTemplate" />
+    </bean>
+    <bean id="agreementService" class="com.leidos.xchangecore.core.infrastructure.service.impl.AgreementServiceImpl">
+        <property name="dao" ref="agreementDAO" />
+        <property name="ldapUtil" ref="ldapUtil" />
+        <property name="agreementRosterChannel" ref="agreementRosterChannel" />
+        <property name="deleteInterestGroupSharedFromRemoteCoreChannel" ref="deleteInterestGroupSharedFromRemoteCoreChannel" />
+        <property name="configurationService" ref="configurationService" />
+        <property name="directoryService" ref="directoryService" />
+    </bean>
+    <bean id="interestGroupService" class="com.leidos.xchangecore.core.infrastructure.service.impl.InterestGroupServiceImpl">
+        <property name="interestGroupDAO" ref="interestGroupDAO" />
+        <property name="configurationService" ref="configurationService" />
+        <property name="directoryService" ref="directoryService" />
+        <property name="workProductService" ref="workProductService" />
+        <property name="interestGroupManagementComponent" ref="interestGroupManagementComponent" />
+    </bean>
+    <!-- DDH
+        <bean id="loggingService" class="com.leidos.xchangecore.core.infrastructure.service.impl.LoggingServiceImpl">
+        <property name="dao" ref="loggerDAO" />
+        <property name="directoryService" ref="directoryService" />
+        <property name="communicationsService" ref="communicationsService" />
+        <property name="configurationService" ref="configurationService" />
+        <property name="ruleEngine" ref="ruleEngine" />
+        <property name="eacUsersFile" value="%INSTALL_HOME%/ServerApps/uicds/config/eac_users.ini" />
+
+        <property name="loggers">
+        <map>
+        <entry>
+        <key>
+        <value>exist</value>
+        </key>
+        <ref bean="existLogMonitor" />
+        </entry>
+        <entry>
+        <key>
+        <value>opends</value>
+        </key>
+        <ref bean="opendsLogMonitor" />
+        </entry>
+        <entry>
+        <key>
+        <value>tomcat</value>
+        </key>
+        <ref bean="tomcatLogMonitor" />
+        </entry>
+        <entry>
+        <key>
+        <value>uicds</value>
+        </key>
+        <ref bean="uicdsLogMonitor" />
+        </entry>
+        <entry>
+        <key>
+        <value>openfire</value>
+        </key>
+        <ref bean="openfireLogMonitor" />
+        </entry>
+        </map>
+        </property>
+        <property name="componentStatusMap">
+        <map>
+        <entry>
+        <key>
+        <value>exist</value>
+        </key>
+        <ref bean="existStatus" />
+        </entry>
+        <entry>
+        <key>
+        <value>opends</value>
+        </key>
+        <ref bean="opendsStatus" />
+        </entry>
+        <entry>
+        <key>
+        <value>openfire</value>
+        </key>
+        <ref bean="openfireStatus" />
+        </entry>
+        <entry>
+        <key>
+        <value>tomcat</value>
+        </key>
+        <ref bean="tomcatStatus" />
+        </entry>
+        <entry>
+        <key>
+        <value>uicds</value>
+        </key>
+        <ref bean="uicdsStatus" />
+        </entry>
+        </map>
+        </property>
+        </bean>
+    -->
+
+    <bean id="resourceProfileService"
+        class="com.leidos.xchangecore.core.infrastructure.service.impl.ResourceProfileServiceImpl">
+        <property name="workProductService" ref="workProductService" />
+        <property name="resourceProfileDAO" ref="resourceProfileDAO" />
+        <property name="directoryService" ref="directoryService" />
+    </bean>
+    <bean id="resourceInstanceService"
+        class="com.leidos.xchangecore.core.infrastructure.service.impl.ResourceInstanceServiceImpl">
+        <property name="resourceInstanceDAO" ref="resourceInstanceDAO" />
+        <property name="directoryService" ref="directoryService" />
+        <property name="notificationService" ref="notificationsService" />
+        <property name="resourceProfileService" ref="resourceProfileService" />
+        <property name="configurationService" ref="configurationService" />
+    </bean>
+
+    <!-- TYPE SYSTEM -->
+    <bean id="typeSystem" class="com.leidos.xchangecore.core.infrastructure.controller.UicdsTypeSystem" />
+    <bean id="typeSystemUtils" class="com.usersmarts.cx.hbm.search.lucene.TypeSystemUtils"
+        p:typeSystem-ref="typeSystem" />
+
+    <!-- Connector Service -->
+    <bean id="connectorService" class="com.usersmarts.cx.SimpleConnectorService">
+        <property name="factories">
+            <list>
+                <bean class="com.usersmarts.cx.ows.OwsConnectorFactory" />
+                <bean class="com.usersmarts.cx.hbm.EmfHibernateConnectorFactory">
+                    <property name="url" value="uicds" />
+                    <property name="entityManagerFactory" ref="entityManagerFactory" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean name="connectorServiceInterceptor" class="com.usersmarts.cx.web.ConnectorServiceInterceptor">
+        <property name="connectorService" ref="connectorService" />
+    </bean>
+
+    <bean id="disseminationManagerComponent" class="com.leidos.xchangecore.core.infrastructure.service.DisseminationManagerComponent">
+        <property name="userInterestGroupDAO" ref="userInterestGroupDAO" />
+    </bean>
+
+    <!-- -->
+    <!-- WebServiceTemplate -->
+    <!-- used by notificationsService -->
+    <!-- -->
+
+    <bean id="xmlbeansMarshaller" class="org.springframework.oxm.xmlbeans.XmlBeansMarshaller" />
+    <bean class="org.springframework.ws.server.endpoint.adapter.GenericMarshallingMethodEndpointAdapter">
+        <property name="marshaller" ref="xmlbeansMarshaller" />
+        <property name="unmarshaller" ref="xmlbeansMarshaller" />
+    </bean>
+    <bean id="messageFactory" class="org.springframework.ws.soap.saaj.SaajSoapMessageFactory" />
+    <bean id="webServiceTemplate" class="org.springframework.ws.client.core.WebServiceTemplate">
+        <constructor-arg ref="messageFactory" />
+        <property name="marshaller" ref="xmlbeansMarshaller" />
+        <property name="unmarshaller" ref="xmlbeansMarshaller" />
+        <property name="defaultUri" value="http://localhost/uicds/core/ws/services" />
+        <property name="messageSender">
+            <bean class="org.springframework.ws.transport.http.CommonsHttpMessageSender">
+                <property name="credentials">
+                    <bean class="org.apache.commons.httpclient.UsernamePasswordCredentials">
+                        <constructor-arg value="admin" />
+                        <constructor-arg value="admin" />
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+</beans>

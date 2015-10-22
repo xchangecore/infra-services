@@ -1,0 +1,160 @@
+<WorkProduct xmlns="http://www.saic.com/precis/2009/06/structures">
+   <PackageMetadata xmlns="ulex:message:structure:1.0">
+      <DataItemID>Incident-82e39033-478d-44f6-86d2-eb825ad70ba5</DataItemID>
+      <DataItemReferenceID>Incident-82e39033-478d-44f6-86d2-eb825ad70ba5</DataItemReferenceID>
+      <DataItemStatus xmlns="http://ucore.gov/ucore/2.0" code="Active"
+                      codespace="http://uicds.org/1.0/codespace/workproduct/status"
+                      label="UICDS Work Product Status"/>
+      <DataOwnerMetadata>
+         <DataOwnerIdentifier xmlns="http://ucore.gov/ucore/2.0">
+            <Organization xmlns="http://metadata.dod.mil/mdr/ns/DDMS/2.0/">
+               <name>ucids.org</name>
+            </Organization>
+         </DataOwnerIdentifier>
+         <DataOwnerContact xmlns="http://ucore.gov/ucore/2.0">
+            <Organization xmlns="http://metadata.dod.mil/mdr/ns/DDMS/2.0/">
+               <name>http://uicds.us</name>
+            </Organization>
+         </DataOwnerContact>
+         <DataOwnerMetadataDomainAttribute>
+            <DomainName>UICDS EM Domain</DomainName>
+         </DataOwnerMetadataDomainAttribute>
+      </DataOwnerMetadata>
+      <DisseminationCriteria xmlns="http://ucore.gov/ucore/2.0"/>
+      <WorkProductIdentification xmlns="http://www.saic.com/precis/2009/06/structures">
+         <Identifier xmlns="http://www.saic.com/precis/2009/06/base">Incident-82e39033-478d-44f6-86d2-eb825ad70ba5</Identifier>
+         <Version xmlns="http://www.saic.com/precis/2009/06/base">1</Version>
+         <Type xmlns="http://www.saic.com/precis/2009/06/base">Incident</Type>
+         <Checksum xmlns="http://www.saic.com/precis/2009/06/base">Mon Jan 26 10:32:40 EST 2015:1:2:4168338397</Checksum>
+         <State xmlns="http://www.saic.com/precis/2009/06/base">Active</State>
+      </WorkProductIdentification>
+      <WorkProductProperties xmlns="http://www.saic.com/precis/2009/06/structures">
+         <Created xmlns="http://www.saic.com/precis/2009/06/base">2015-01-26T10:32:40.503-05:00</Created>
+         <CreatedBy xmlns="http://www.saic.com/precis/2009/06/base">user3@gv56bz1.corp.leidos.com</CreatedBy>
+         <LastUpdated xmlns="http://www.saic.com/precis/2009/06/base">2015-01-26T10:32:40.503-05:00</LastUpdated>
+         <LastUpdatedBy xmlns="http://www.saic.com/precis/2009/06/base">user3@gv56bz1.corp.leidos.com</LastUpdatedBy>
+         <Kilobytes xmlns="http://www.saic.com/precis/2009/06/base">2</Kilobytes>
+         <MimeType xmlns="http://www.saic.com/precis/2009/06/base">application/uicds+xml</MimeType>
+         <AssociatedGroups xmlns="http://www.saic.com/precis/2009/06/base">
+            <Identifier>IG-15a0a829-dac4-4457-a35a-1133c5f57472</Identifier>
+         </AssociatedGroups>
+      </WorkProductProperties>
+   </PackageMetadata>
+   <Digest xmlns="http://ucore.gov/ucore/2.0" xmlns:ucoregml="http://www.opengis.net/gml/3.2"
+           xmlns:ns1="http://niem.gov/niem/niem-core/2.0"
+           xmlns:ns="http://www.opengis.net/gml/3.2"
+           xmlns:ucore="http://ucore.gov/ucore/2.0"
+           xmlns:inc="http://uicds.org/incident"
+           xmlns:have="urn:oasis:names:tc:emergency:EDXL:HAVE:1.0"
+           xmlns:ddms="http://metadata.dod.mil/mdr/ns/DDMS/2.0/"
+           xmlns:geo-oasis="urn:oasis:names:tc:emergency:EDXL:HAVE:1.0:geo-oasis"
+           xmlns:xnl="urn:oasis:names:tc:ciq:xnl:3"
+           xmlns:gml="http://www.opengis.net/gml"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+      <Organization id="Organization-w1aab1a">
+         <Identifier ucore:label="InterestGroupID">IG-15a0a829-dac4-4457-a35a-1133c5f57472</Identifier>
+         <What ucore:code="Organization"
+               ucore:codespace="http://ucore.gov/ucore/2.0/codespace/"/>
+         <Name>
+            <Value>Richmond Fire Department</Value>
+         </Name>
+      </Organization>
+      <Event id="Event-w1aab1a">
+         <Descriptor>Apartment building in on fire, multiple floors fully involved, partial building collapse</Descriptor>
+         <Identifier ucore:code="ActivityName" ucore:codespace="http://niem.gov/niem/niem-core/2.0"
+                     ucore:label="ID">Apartment Building Fire (Demo)</Identifier>
+         <Identifier ucore:code="label" ucore:codespace="http://uicds.us/identifier"
+                     ucore:label="Label">Apartment Build...</Identifier>
+         <SimpleProperty ucore:code="icon" ucore:codespace="http://uicds.us/style" ucore:label="Icon">../Icons/HWSGSymbology/Incidents/Blank_Incident_A.png</SimpleProperty>
+         <SimpleProperty ucore:code="color" ucore:codespace="http://uicds.us/style" ucore:label="Color">red</SimpleProperty>
+         <SimpleProperty ucore:code="scalar" ucore:codespace="http://uicds.us/style"
+                         ucore:label="Scalar">15</SimpleProperty>
+         <What ucore:code="Fire" ucore:codespace="http://ucore.gov/ucore/2.0/codespace/"/>
+      </Event>
+      <Location id="Location-w1aab1a">
+         <GeoLocation>
+            <CircleByCenterPoint>
+               <ucoregml:CircleByCenterPoint numArc="1">
+                  <ucoregml:pos srsName="EPSG:4326">38.86505, -76.97404</ucoregml:pos>
+                  <ucoregml:radius uom="SMI">4.5</ucoregml:radius>
+               </ucoregml:CircleByCenterPoint>
+            </CircleByCenterPoint>
+         </GeoLocation>
+         <PhysicalAddress>
+            <ddms:postalAddress>
+               <ddms:street/>
+               <ddms:city/>
+               <ddms:state/>
+               <ddms:postalCode/>
+               <ddms:countryCode ddms:qualifier="ISO 3166-1" ddms:value=""/>
+            </ddms:postalAddress>
+         </PhysicalAddress>
+      </Location>
+      <OccursAt id="OccursAt-w1aab1a">
+         <Time>
+            <TimeInstant>
+               <Value>2015-01-26T10:32:40.461-05:00</Value>
+            </TimeInstant>
+         </Time>
+         <EventRef ref="Event-w1aab1a"/>
+         <LocationRef ref="Location-w1aab1a"/>
+      </OccursAt>
+   </Digest>
+   <StructuredPayload xmlns="ulex:message:structure:1.0">
+      <StructuredPayloadMetadata>
+         <CommunityURI>Incident</CommunityURI>
+         <CommunityVersion/>
+      </StructuredPayloadMetadata>
+      <inc:Incident xmlns:inc="http://uicds.org/incident"
+                    xmlns:NS1="http://www.w3.org/2001/XMLSchema-instance"
+                    xmlns:ns="http://niem.gov/niem/structures/2.0"
+                    ns:id="Incident-82e39033-478d-44f6-86d2-eb825ad70ba5">				
+         <ns1:ActivityIdentification xmlns:ns1="http://niem.gov/niem/niem-core/2.0">
+            <ns1:IdentificationID>IG-15a0a829-dac4-4457-a35a-1133c5f57472</ns1:IdentificationID>
+         </ns1:ActivityIdentification>
+         <ActivityCategoryText xmlns="http://niem.gov/niem/niem-core/2.0">Fire</ActivityCategoryText>				
+         <ActivityDate xmlns="http://niem.gov/niem/niem-core/2.0">					
+            <DateTime>2009-11-20T12:05:00</DateTime>				
+         </ActivityDate>				
+         <ActivityDescriptionText xmlns="http://niem.gov/niem/niem-core/2.0">Apartment building in on fire, multiple floors fully involved, partial building collapse</ActivityDescriptionText>				
+         <ActivityName xmlns="http://niem.gov/niem/niem-core/2.0">Apartment Building Fire (Demo)</ActivityName>				
+         <IncidentLocation xmlns="http://niem.gov/niem/niem-core/2.0">					
+            <LocationAddress>						
+               <AddressFullText>2300 Good Hope Road Southeast, Washington, DC</AddressFullText>					
+            </LocationAddress>					
+            <LocationArea>						
+               <AreaCircularRegion>							
+                  <CircularRegionCenterCoordinate>								
+                     <GeographicCoordinateLatitude>									
+                        <LatitudeDegreeValue>38</LatitudeDegreeValue>									
+                        <LatitudeMinuteValue>51</LatitudeMinuteValue>									
+                        <LatitudeSecondValue>54.18</LatitudeSecondValue>								
+                     </GeographicCoordinateLatitude>								
+                     <GeographicCoordinateLongitude>									
+                        <LongitudeDegreeValue>-76</LongitudeDegreeValue>									
+                        <LongitudeMinuteValue>58</LongitudeMinuteValue>									
+                        <LongitudeSecondValue>26.55</LongitudeSecondValue>								
+                     </GeographicCoordinateLongitude>							
+                  </CircularRegionCenterCoordinate>							
+                  <CircularRegionRadiusLengthMeasure>                                
+                     <MeasurePointValue>4.5</MeasurePointValue>								
+                     <LengthUnitCode>SMI</LengthUnitCode>							
+                  </CircularRegionRadiusLengthMeasure>						
+               </AreaCircularRegion>					
+            </LocationArea>				
+         </IncidentLocation>				
+         <IncidentJurisdictionalOrganization xmlns="http://niem.gov/niem/niem-core/2.0">					
+            <OrganizationName>Richmond Fire Department</OrganizationName>					
+            <OrganizationPrincipalOfficial>						
+               <PersonName>							
+                  <PersonFullName>ICS Commander</PersonFullName>						
+               </PersonName>					
+            </OrganizationPrincipalOfficial>					
+            <OrganizationStatus>						
+               <StatusDescriptionText>Activated</StatusDescriptionText>					
+            </OrganizationStatus>				
+         </IncidentJurisdictionalOrganization>			
+         <inc:OwningCore>uicds@gv56bz1.corp.leidos.com</inc:OwningCore>
+      </inc:Incident>
+   </StructuredPayload>
+</WorkProduct>

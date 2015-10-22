@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <import resource="CoreProperties.xml" />
+    <import resource="dataSource.xml" />
+
+    <!-- -->
+    <!-- TX MANAGER -->
+    <!-- -->
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+    <bean id="persistenceUnitManager" class="com.leidos.xchangecore.core.infrastructure.util.PersistenceUnitManager">
+        <property name="persistenceXmlLocations">
+            <list>
+                <value>classpath*:META-INF/persistence.xml</value>
+            </list>
+        </property>
+        <property name="defaultDataSource" ref="dataSource" />
+    </bean>
+
+    <!-- -->
+    <!-- ENTITY MANAGER FACTORY -->
+    <!-- -->
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="persistenceUnitManager" ref="persistenceUnitManager" />
+        <property name="dataSource" ref="dataSource" />
+        <property name="jpaVendorAdapter" ref="hibernateAdapter" />
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.search.default.directory_provider">org.hibernate.search.store.FSDirectoryProvider</prop>
+                <prop key="hibernate.search.default.indexBase">target/lucene</prop>
+
+                <!-- Use in-memory Lucene Index for search <prop key="hibernate.search.default.directory_provider">
+                    org.hibernate.search.store.RAMDirectoryProvider </prop> -->
+
+            </props>
+        </property>
+    </bean>
+
+</beans>

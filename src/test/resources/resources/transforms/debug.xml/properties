@@ -1,0 +1,4 @@
+method=xml
+mediatype=application/xml
+xquery=render.xquery
+modulens=http://uicds.org/modules/transform/debug.xml

@@ -1,0 +1,4 @@
+method=text
+mediatype=text/plain
+xquery=render.xquery
+modulens=http://uicds.org/modules/transform/debug.text

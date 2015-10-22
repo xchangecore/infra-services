@@ -1,0 +1,36 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/persistence persistence_1_0.xsd" version="1.0">
+    <persistence-unit name="default" transaction-type="RESOURCE_LOCAL">
+
+        <class>com.leidos.xchangecore.core.infrastructure.model.InterestGroup</class>
+        <class>com.leidos.xchangecore.core.infrastructure.model.WorkProduct</class>
+        <class>com.leidos.xchangecore.core.infrastructure.model.ExternalDataSourceConfig</class>
+        <class>com.leidos.xchangecore.core.infrastructure.model.CoreConfig</class>
+        <class>com.leidos.xchangecore.core.infrastructure.model.RegisteredService</class>
+        <class>com.leidos.xchangecore.core.infrastructure.model.ResourceProfileModel</class>
+        <class>com.leidos.xchangecore.core.infrastructure.model.ResourceInstanceModel</class>
+        <class>com.leidos.xchangecore.core.infrastructure.model.UserRole</class>
+        <class>com.leidos.xchangecore.core.infrastructure.model.InterestElement</class>
+        <class>com.leidos.xchangecore.core.infrastructure.model.InterestNamespaceType</class>
+        <class>com.leidos.xchangecore.core.infrastructure.model.PublishedProduct</class>
+        <class>com.leidos.xchangecore.core.infrastructure.model.SubscribedProduct</class>
+        <class>com.leidos.xchangecore.core.infrastructure.model.ProductSubscriptionByID</class>
+        <class>com.leidos.xchangecore.core.infrastructure.model.ProductSubscriptionByType</class>
+        <class>com.leidos.xchangecore.core.infrastructure.model.Log</class>
+        <class>com.leidos.xchangecore.core.infrastructure.model.Agreement</class>
+        <class>com.leidos.xchangecore.core.infrastructure.model.ShareRule</class>
+        <class>com.leidos.xchangecore.core.infrastructure.model.CodeSpaceValueType</class>
+        <class>com.leidos.xchangecore.core.infrastructure.model.Notification</class>
+        <class>com.leidos.xchangecore.core.infrastructure.model.NotificationSubscription</class>
+        <class>com.leidos.xchangecore.core.infrastructure.model.NotificationMessage</class>
+        <class>com.leidos.xchangecore.core.infrastructure.model.UserInterestGroup</class>
+        <class>com.leidos.xchangecore.core.infrastructure.model.WorkProduct</class>
+        <class>com.leidos.xchangecore.core.infrastructure.model.QueuedMessage</class>
+        
+        <properties>
+            <property name="hibernate.search.default.indexBase" value="target" />
+            <property name="hibernate.search.default.directory_provider" value="org.hibernate.search.store.FSDirectoryProvider" />
+        </properties>
+        
+    </persistence-unit>
+</persistence>
