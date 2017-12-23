@@ -1,9 +1,5 @@
 package com.leidos.xchangecore.core.infrastructure.model;
 
-import gov.ucore.ucore.x20.DigestDocument;
-import gov.ucore.ucore.x20.IdentifierType;
-import gov.ucore.ucore.x20.ThingType;
-
 import java.io.InputStream;
 import java.io.Serializable;
 import java.sql.Blob;
@@ -27,6 +23,10 @@ import org.slf4j.LoggerFactory;
 
 import com.leidos.xchangecore.core.infrastructure.util.WorkProductConstants;
 
+import gov.ucore.ucore.x20.DigestDocument;
+import gov.ucore.ucore.x20.IdentifierType;
+import gov.ucore.ucore.x20.ThingType;
+
 /**
  * A work product is a typed resource that contains data in one of several standard data formats
  * about some aspect of an incident.
@@ -35,8 +35,7 @@ import com.leidos.xchangecore.core.infrastructure.util.WorkProductConstants;
  * @ssdd
  */
 @Entity
-public class WorkProduct
-    implements Serializable, WorkProductConstants {
+public class WorkProduct implements Serializable, WorkProductConstants {
 
     private static final long serialVersionUID = -7909684672536211321L;
     private static final String UICDSXmlMimeType = "application/uicds+xml";
@@ -143,8 +142,7 @@ public class WorkProduct
             if (associatedInterestGroupIDs.length() == 0) {
                 associatedInterestGroupIDs = new String(interestGroupID);
             } else {
-                associatedInterestGroupIDs = new String(associatedInterestGroupIDs + " " +
-                                                        interestGroupID);
+                associatedInterestGroupIDs = new String(associatedInterestGroupIDs + " " + interestGroupID);
             }
             // logger.debug("associateInterestGroup: after [" + associatedInterestGroupIDs + "]");
         }
@@ -240,8 +238,7 @@ public class WorkProduct
 
         if (associatedInterestGroupIDs.length() > 0) {
             int index = associatedInterestGroupIDs.indexOf(" ");
-            return index == -1 ? associatedInterestGroupIDs : associatedInterestGroupIDs.substring(0,
-                index);
+            return index == -1 ? associatedInterestGroupIDs : associatedInterestGroupIDs.substring(0, index);
         } else {
             return null;
         }
@@ -399,10 +396,27 @@ public class WorkProduct
         Set<String> idSet = new HashSet<String>();
         String[] igIDs = associatedInterestGroupIDs.split(" ", -1);
         for (String igID : igIDs) {
-            idSet.add(igID.trim());
+            if (igID.length() > 0)
+                idSet.add(igID.trim());
         }
         // logger.debug("id2Set: [" + associatedInterestGroupIDs + "] to set of " + idSet.size() + "IGIDs");
         return idSet;
+    }
+
+    /**
+     * Check whether the requstor is the creator
+     * 
+     * @param user
+     * @return
+     */
+    public boolean isCreator(String user) {
+
+        String[] tokens = this.createdBy.split("@", -1);
+	logger.debug("WorkProduct.isCreator: Creator: [" + tokens[0].trim() + "], user: [" + user.trim() + "]");
+        if (tokens[0].trim().equalsIgnoreCase(user.trim()))
+            return true;
+
+        return false;
     }
 
     /**
@@ -453,10 +467,8 @@ public class WorkProduct
             sb.append(" ");
         }
         associatedInterestGroupIDs = new String(sb.toString().trim());
-        logger.debug("setAssociatedInterestGroupIDs: associatedInterestGroupIDs: [" +
-                     associatedInterestGroupIDs + "]");
-        logger.debug("setAssociatedInterestGroupIDs: IGID: [" +
-                     getFirstAssociatedInterestGroupID() + "]");
+        logger.debug("setAssociatedInterestGroupIDs: associatedInterestGroupIDs: [" + associatedInterestGroupIDs + "]");
+        logger.debug("setAssociatedInterestGroupIDs: IGID: [" + getFirstAssociatedInterestGroupID() + "]");
     }
 
     /**
@@ -522,8 +534,7 @@ public class WorkProduct
                 id.setStringValue(IGID);
             }
             thing.setIdentifierArray(0, id);
-            logger.debug("WorkProduct: after adding Digest.Event.Identifier: " +
-                         id.getStringValue());
+            logger.debug("WorkProduct: after adding Digest.Event.Identifier: " + id.getStringValue());
         }
 
         digest = Hibernate.createBlob(digestDocument.xmlText().getBytes());
