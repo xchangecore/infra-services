@@ -410,6 +410,7 @@
         <property name="workProductDAO" ref="workProductDAO" />
         <property name="interestGroupDAO" ref="interestGroupDAO" />
         <property name="ldapUtil" ref="ldapUtil" />
+        <property name="userInterestGroupDAO" ref="userInterestGroupDAO" />
     </bean>
     <bean id="searchService" class="com.leidos.xchangecore.core.infrastructure.service.impl.SearchServiceImpl">
         <property name="directoryService" ref="directoryService" />

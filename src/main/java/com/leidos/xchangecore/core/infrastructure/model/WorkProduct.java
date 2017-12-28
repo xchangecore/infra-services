@@ -412,7 +412,7 @@ public class WorkProduct implements Serializable, WorkProductConstants {
     public boolean isCreator(String user) {
 
         String[] tokens = this.createdBy.split("@", -1);
-	logger.debug("WorkProduct.isCreator: Creator: [" + tokens[0].trim() + "], user: [" + user.trim() + "]");
+        logger.debug("WorkProduct.isCreator: Creator: [" + tokens[0].trim() + "], user: [" + user.trim() + "]");
         if (tokens[0].trim().equalsIgnoreCase(user.trim()))
             return true;
 
